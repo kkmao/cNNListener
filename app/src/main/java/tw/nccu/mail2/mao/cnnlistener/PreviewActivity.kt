@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import tw.nccu.mail2.mao.cnnlistener.databinding.ActivityPreviewBinding
 
 class PreviewActivity : AppCompatActivity() {
@@ -15,18 +16,19 @@ class PreviewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPreviewBinding.inflate(layoutInflater)
-        //val view = binding.root
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_preview)
+
+        //binding = ActivityPreviewBinding.inflate(layoutInflater)
+        //setContentView(binding.root)
 
         //setContentView(R.layout.activity_preview)
 
+        //intent part
         val intent = getIntent()
         title = intent.getStringExtra("title")
         val byteArray = intent.getByteArrayExtra("cover")
         val size = byteArray?.size ?: 0
         cover = BitmapFactory.decodeByteArray(byteArray, 0, size)
-//        cover = intent.getParcelableExtra<Bitmap>("cover")
         description = intent.getStringExtra("description")
 
 

@@ -2,6 +2,7 @@ package tw.nccu.mail2.mao.cnnlistener
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import tw.nccu.mail2.mao.cnnlistener.databinding.ActivitySwipeRefreshBinding
 
 class MainActivity : AppCompatActivity() {
@@ -20,8 +21,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySwipeRefreshBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_swipe_refresh)
+
+//        binding = ActivitySwipeRefreshBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
         //setContentView(R.layout.activity_swipe_refresh)
 
         //val recyclerView: RecyclerView = findViewById(R.id.recycle_view)
