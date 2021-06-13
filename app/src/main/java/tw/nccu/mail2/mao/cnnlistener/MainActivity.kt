@@ -1,38 +1,33 @@
 package tw.nccu.mail2.mao.cnnlistener
 
-import android.app.ListActivity
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import tw.nccu.mail2.mao.cnnlistener.databinding.ActivitySwipeRefreshBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySwipeRefreshBinding
+
     val adapter: CNNListRecycleAdapter by lazy {
 //        CNNListAdapter(this)
-        CNNListRecycleAdapter()
+        CNNListRecycleAdapter(this)
     }
 
     val swipeRefreshLayout by lazy {
-        findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
+        //findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
+        binding.swipeRefreshLayout
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_swipe_refresh)
+        binding = ActivitySwipeRefreshBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        //setContentView(R.layout.activity_swipe_refresh)
 
-        val recyclerView: RecyclerView = findViewById(R.id.recycle_view)
-        recyclerView.adapter = adapter
-        //listAdapter = adapter
+        //val recyclerView: RecyclerView = findViewById(R.id.recycle_view)
+        binding.recycleView.adapter = adapter
 
         swipeRefreshLayout.setOnRefreshListener {
-//            titles.clear()
             loadList()
         }
         loadList()
@@ -46,15 +41,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun finish(news: List<NewsData>) {
-//                for (subnews in news) {
-////                    val textView = TextView(this@MainActivity)
-////                    textView.text =subnews.title
-////                    linearLayout.addView(textView)
-//                    titles.add(subnews.title)
-//                }
                 adapter.data = news
                 swipeRefreshLayout.isRefreshing = false
-//                adapter.notifyDataSetChanged()
             }
         }).parseURL("https://www.youtube.com/feeds/videos.xml?channel_id=UCupvZG-5ko_eiXAupbDfxWw")
     }

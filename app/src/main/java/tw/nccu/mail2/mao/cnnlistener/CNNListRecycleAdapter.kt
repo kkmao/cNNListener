@@ -2,21 +2,23 @@ package tw.nccu.mail2.mao.cnnlistener
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import tw.nccu.mail2.mao.cnnlistener.databinding.CnnListItemBinding
+import java.io.ByteArrayOutputStream
 
-class CNNListRecycleAdapter() : RecyclerView.Adapter<CNNListRecycleAdapter.ViewHolder>() {
+
+class CNNListRecycleAdapter(mContext : Context) : RecyclerView.Adapter<CNNListRecycleAdapter.ViewHolder>() {
     var data = listOf<NewsData>()
     set(value) {
         field = value
         notifyDataSetChanged()
     }
+    val mContext = mContext
 
     override fun getItemCount(): Int {
         return data.size
@@ -28,29 +30,42 @@ class CNNListRecycleAdapter() : RecyclerView.Adapter<CNNListRecycleAdapter.ViewH
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater
-            .inflate(R.layout.cnn_list_item, parent, false)
+        val itemBinding = CnnListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return ViewHolder(view, parent)
+//        val layoutInflater = LayoutInflater.from(parent.context)
+//        val view = layoutInflater
+//            .inflate(R.layout.cnn_list_item, parent, false)
+
+
+        return ViewHolder(itemBinding, parent, mContext)
     }
 
-    class ViewHolder(itemView: View, parent: ViewGroup) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.text_View)
-        val image: ImageView = itemView.findViewById(R.id.image_View)
-        val parent : ViewGroup = parent
+    class ViewHolder(itemBinding: CnnListItemBinding, parent: ViewGroup, mContext: Context) : RecyclerView.ViewHolder(itemBinding.root){
+        val title: TextView = itemBinding.textView
+//            itemView.findViewById(R.id.text_View)
+        val image: ImageView = itemBinding.imageView
+//            itemView.findViewById(R.id.image_View)
+        var item : NewsData = NewsData("", null, "")
+
+
+        init {
+            itemBinding.root.setOnClickListener {
+                val intent = Intent(mContext, PreviewActivity::class.java)
+                intent.putExtra("title", item.title)
+                var byteArrayOutputStream  = ByteArrayOutputStream()
+                item.thumbNail?.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+                intent.putExtra("cover", byteArrayOutputStream.toByteArray())
+                intent.putExtra("description", item.description)
+                mContext.startActivity(intent)
+            }
+        }
 
         fun bind(item: NewsData) {
             title.text = item.title
             image.setImageBitmap(item.thumbNail)
-            itemView.setOnClickListener{
-                val intent = Intent(parent.context, PreviewActivity::class.java)
-                intent.putExtra("title", item.title)
-                intent.putExtra("cover", item.thumbNail)
-                intent.putExtra("description", item.description)
-                parent.context.startActivity(intent)
-            }
+            this.item = item
         }
 
     }
+
 }
