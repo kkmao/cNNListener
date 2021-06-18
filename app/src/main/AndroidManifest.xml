@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CNNListener"
         android:usesCleartextTraffic="true">
+        <activity android:name=".YoutubeVideo"></activity>
         <activity android:name=".PreviewActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

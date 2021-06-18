@@ -20,10 +20,12 @@ class CNNYoutubeSAX(val listener: ParserListener):DefaultHandler() {
     private var titleFound = false
     private var imageFound = false
     private var descriptionFound = false
+    private var videoIdFound = false
     private var element = ""
     private var newsTitle = ""
     private var thumbNail : Bitmap? = null
     private var description = ""
+    private var videoId: String = ""
     private var data = mutableListOf<NewsData>()
 
     override fun startElement(
@@ -47,6 +49,8 @@ class CNNYoutubeSAX(val listener: ParserListener):DefaultHandler() {
                 thumbNail = BitmapFactory.decodeStream(inputStream)
             }else if (localName == "description"){
                 descriptionFound = true
+            }else if (localName == "videoId"){
+                videoIdFound = true
             }
         }
         element = ""
@@ -58,17 +62,19 @@ class CNNYoutubeSAX(val listener: ParserListener):DefaultHandler() {
             if (titleFound){
                 titleFound = false
                 newsTitle = element
-                Log.i("Title", newsTitle)
             }else if (imageFound){
                 imageFound =false
             }else if (descriptionFound){
                 descriptionFound = false
                 description = element
+            }else if (videoIdFound){
+                videoIdFound = false
+                videoId = element
             }
         }
         if (localName == "entry"){
             entryFound = false
-            data.add(NewsData(newsTitle, thumbNail, description))
+            data.add(NewsData(newsTitle, thumbNail, description, videoId))
         }
     }
 

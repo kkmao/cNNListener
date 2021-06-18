@@ -36,7 +36,6 @@ class CNNListRecycleAdapter(mContext : Context) : RecyclerView.Adapter<CNNListRe
 //        val view = layoutInflater
 //            .inflate(R.layout.cnn_list_item, parent, false)
 
-
         return ViewHolder(itemBinding, parent, mContext)
     }
 
@@ -56,6 +55,7 @@ class CNNListRecycleAdapter(mContext : Context) : RecyclerView.Adapter<CNNListRe
                 item.thumbNail?.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
                 intent.putExtra("cover", byteArrayOutputStream.toByteArray())
                 intent.putExtra("description", item.description)
+                intent.putExtra("videoId", item.videoId)
                 mContext.startActivity(intent)
             }
         }
