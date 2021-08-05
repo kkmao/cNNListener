@@ -49,6 +49,9 @@ class CNNListRecycleAdapter(mContext : Context) : RecyclerView.Adapter<CNNListRe
 
         init {
             itemBinding.root.setOnClickListener {
+
+//                if(itemBinding.root.parentFra)
+
                 val intent = Intent(mContext, PreviewActivity::class.java)
                 intent.putExtra("title", item.title)
                 var byteArrayOutputStream  = ByteArrayOutputStream()

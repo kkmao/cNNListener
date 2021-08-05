@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/newsListFragment">
+
+    <fragment
+        android:id="@+id/newsListFragment"
+        android:name="tw.nccu.mail2.mao.cnnlistener.NewsListFragment"
+        android:label="NewsListFragment" >
+        <action
+            android:id="@+id/action_newsListFragment_to_newsPreviewFragment"
+            app:destination="@id/newsPreviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsPreviewFragment"
+        android:name="tw.nccu.mail2.mao.cnnlistener.NewsPreviewFragment"
+        android:label="NewsPreviewFragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="thumbNail"
+            app:argType="android.graphics.Bitmap" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="videoId"
+            app:argType="string" />
+    </fragment>
+</navigation>
